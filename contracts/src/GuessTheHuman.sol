@@ -21,10 +21,13 @@ contract GuessTheHuman {
     mapping(uint256 => GameBoard) public gameBoards;
     mapping(uint256 => mapping(address => PlayerMove)) public playerMoves;
     mapping(uint256 => address[]) public gamePlayers; // Store players for each game
+    mapping(address => uint256) public globalLeaderboard; // Store total scores per player
+    address[] public leaderboardPlayers; // Track players who have played
     uint256 public gameBoardCount;
 
     event GameBoardCreated(uint256 gameId, uint256 rows, uint256 columns, address creator);
     event MoveSubmitted(uint256 gameId, address player, uint8[] moves, uint256 score);
+    event LeaderboardReset();
 
     // Function to Create a Game Board
     function createGameBoard(uint256 rows, uint256 columns, uint8[][] memory map) external {
@@ -57,17 +60,23 @@ contract GuessTheHuman {
 
             // Collect points or penalties
             if (map[posX][posY] == 2) {
-                score++;
+                score += 10;
                 map[posX][posY] = 0; // Remove collected yellow point
             } else if (map[posX][posY] == 3) {
                 if (score > 0) {
-                    score--; // Deduct points for red point
+                    score -= 5; // Deduct points for red point
                 }
                 map[posX][posY] = 0; // Remove collected red point
             }
         }
 
         gamePlayers[gameId].push(msg.sender); // Track players
+
+        if (globalLeaderboard[msg.sender] == 0) {
+            leaderboardPlayers.push(msg.sender); // Only add if first time playing
+        }
+        globalLeaderboard[msg.sender] += score;
+
         playerMoves[gameId][msg.sender] = PlayerMove(msg.sender, moves, score, true, false);
         emit MoveSubmitted(gameId, msg.sender, moves, score);
     }
@@ -79,6 +88,7 @@ contract GuessTheHuman {
         require(!playerMoves[gameId][player].guessed, "Player already guessed");
         playerMoves[gameId][player].guessed = true;
         if (human == true && playerMoves[gameId][player].score > 0) {
+            globalLeaderboard[msg.sender] -= playerMoves[gameId][player].score;
             playerMoves[gameId][player].score = 0;
         }
     }
@@ -128,4 +138,28 @@ contract GuessTheHuman {
 
         return unguessedPlayers;
     }
+
+    // Functon to return current running leaderboard
+        function getLeaderboard() external view returns (address[] memory, uint256[] memory) {
+        uint256 playerCount = leaderboardPlayers.length;
+        address[] memory players = new address[](playerCount);
+        uint256[] memory scores = new uint256[](playerCount);
+
+        for (uint256 i = 0; i < playerCount; i++) {
+            players[i] = leaderboardPlayers[i];
+            scores[i] = globalLeaderboard[players[i]];
+        }
+
+        return (players, scores);
+    }
+
+    // Reset Leaderboard
+    function resetLeaderboard() external {
+        for (uint256 i = 0; i < leaderboardPlayers.length; i++) {
+            globalLeaderboard[leaderboardPlayers[i]] = 0;
+        }
+        delete leaderboardPlayers;
+        emit LeaderboardReset();
+    }
+
 }

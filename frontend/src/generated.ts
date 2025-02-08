@@ -83,6 +83,16 @@ export const guessTheHumanAbi = [
   },
   {
     type: 'function',
+    inputs: [],
+    name: 'getLeaderboard',
+    outputs: [
+      { name: '', internalType: 'address[]', type: 'address[]' },
+      { name: '', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'gameId', internalType: 'uint256', type: 'uint256' },
       { name: 'player', internalType: 'address', type: 'address' },
@@ -100,6 +110,13 @@ export const guessTheHumanAbi = [
   },
   {
     type: 'function',
+    inputs: [{ name: '', internalType: 'address', type: 'address' }],
+    name: 'globalLeaderboard',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [
       { name: 'gameId', internalType: 'uint256', type: 'uint256' },
       { name: 'player', internalType: 'address', type: 'address' },
@@ -108,6 +125,13 @@ export const guessTheHumanAbi = [
     name: 'guessPlayer',
     outputs: [],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    name: 'leaderboardPlayers',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -123,6 +147,13 @@ export const guessTheHumanAbi = [
       { name: 'guessed', internalType: 'bool', type: 'bool' },
     ],
     stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'resetLeaderboard',
+    outputs: [],
+    stateMutability: 'nonpayable',
   },
   {
     type: 'function',
@@ -165,6 +196,7 @@ export const guessTheHumanAbi = [
     ],
     name: 'GameBoardCreated',
   },
+  { type: 'event', anonymous: false, inputs: [], name: 'LeaderboardReset' },
   {
     type: 'event',
     anonymous: false,
