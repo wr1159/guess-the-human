@@ -101,9 +101,9 @@ const GameBoard = ({
             ]);
 
             if (board[newRow][newCol] === 2) {
-                setScore((prevScore) => prevScore + 1);
+                setScore((prevScore) => prevScore + 10);
             } else if (board[newRow][newCol] === 3) {
-                setScore((prevScore) => Math.max(0, prevScore - 1));
+                setScore((prevScore) => Math.max(0, prevScore - 5));
             }
 
             const updatedBoard = board.map((r, i) =>
@@ -113,7 +113,7 @@ const GameBoard = ({
             setPlayerPos({ row: newRow, col: newCol });
             setMoves((prevMoves) => [...prevMoves, direction]);
         },
-        [playerPos, moves, cols, rows, board]
+        [playerPos, moves, cols, rows, board, score]
     );
     const simulateKeyPress = (key: string) => {
         handleKeyDown({ key } as KeyboardEvent);

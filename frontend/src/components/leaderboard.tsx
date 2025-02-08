@@ -37,7 +37,7 @@ const Leaderboard = () => {
     return (
         <div className="p-6">
             <h2 className="text-center text-2xl font-semibold mb-4">
-                Global Leaderboard
+                This Week&apos;s Leaderboard
             </h2>
             <div className="border rounded-lg p-4">
                 {players.length === 0 ? (
@@ -63,7 +63,9 @@ const Leaderboard = () => {
                                 .sort((a, b) => b.score - a.score) // Sort by highest score
                                 .map(({ player, score }) => (
                                     <tr key={player}>
-                                        <td className="p-2">{player}</td>
+                                        <td className="p-2 font-mono">
+                                            {player}
+                                        </td>
                                         <td className="p-2">{score}</td>
                                     </tr>
                                 ))}

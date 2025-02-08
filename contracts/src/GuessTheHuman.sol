@@ -85,10 +85,11 @@ contract GuessTheHuman {
     function guessPlayer(uint256 gameId, address player, bool human) external {
         require(gameId < gameBoardCount, "Invalid game ID");
         require(playerMoves[gameId][player].played, "Player has not submitted moves");
-        require(!playerMoves[gameId][player].guessed, "Player already guessed");
+        require(!playerMoves[gameId][msg.sender].guessed, "Player already guessed");
         playerMoves[gameId][player].guessed = true;
         if (human == true && playerMoves[gameId][player].score > 0) {
-            globalLeaderboard[msg.sender] -= playerMoves[gameId][player].score;
+            globalLeaderboard[player] -= playerMoves[gameId][player].score;
+            globalLeaderboard[msg.sender] += playerMoves[gameId][player].score;
             playerMoves[gameId][player].score = 0;
         }
     }
@@ -140,7 +141,7 @@ contract GuessTheHuman {
     }
 
     // Functon to return current running leaderboard
-        function getLeaderboard() external view returns (address[] memory, uint256[] memory) {
+    function getLeaderboard() external view returns (address[] memory, uint256[] memory) {
         uint256 playerCount = leaderboardPlayers.length;
         address[] memory players = new address[](playerCount);
         uint256[] memory scores = new uint256[](playerCount);
