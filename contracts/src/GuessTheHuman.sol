@@ -80,4 +80,21 @@ contract GuessTheHuman {
             playerMoves[gameId][player].score -= 1;
         }
     }
+
+    // Function to return the entire board as a 1D array (flattened)
+    function getFlatBoard(uint256 gameId) external view returns (uint8[] memory) {
+        require(gameId < gameBoardCount, "Invalid game ID");
+        GameBoard storage board = gameBoards[gameId];
+
+        uint256 totalSize = board.rows * board.columns;
+        uint8[] memory flatBoard = new uint8[](totalSize);
+
+        for (uint256 i = 0; i < board.rows; i++) {
+            for (uint256 j = 0; j < board.columns; j++) {
+                flatBoard[i * board.columns + j] = board.map[i][j]; // Flatten row & col
+            }
+        }
+
+        return flatBoard;
+    }
 }
