@@ -2,7 +2,7 @@
 
 import { cookieStorage, createStorage } from "@wagmi/core";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { opBNBTestnet, anvil, bscTestnet } from "@reown/appkit/networks";
+import { anvil, bscTestnet } from "@reown/appkit/networks";
 import { airDaoTestnet } from "./other-networks";
 
 // Get projectId from https://cloud.reown.com
