@@ -10,10 +10,13 @@ import {
 } from "@/components/ui/carousel";
 import { Spinner } from "@/components/ui/spinner";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useChainId, useReadContract } from "wagmi";
 
 export default function Play() {
+    const searchParams = useSearchParams();
+    const id = parseInt(searchParams.get("id") || "1");
     const chainId = useChainId();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [gameData, setGameData] = useState<
@@ -27,7 +30,7 @@ export default function Play() {
             guessTheHumanAddress[chainId as keyof typeof guessTheHumanAddress],
         abi: guessTheHumanAbi,
         functionName: "gameBoards",
-        args: [BigInt(1)],
+        args: [BigInt(id)],
     });
 
     // Fetch flattened board
@@ -36,7 +39,7 @@ export default function Play() {
             guessTheHumanAddress[chainId as keyof typeof guessTheHumanAddress],
         abi: guessTheHumanAbi,
         functionName: "getFlatBoard",
-        args: [BigInt(1)],
+        args: [BigInt(id)],
     });
 
     // Once both fetches complete, update state
@@ -57,7 +60,7 @@ export default function Play() {
 
     return (
         <div className="container max-w-5xl mx-auto p-6 items-center justify-center grid xl:grid-cols-2 space-x-6">
-            <GameBoard gameId={1} gameData={gameData} flatBoard={flatBoard} />
+            <GameBoard gameId={id} gameData={gameData} flatBoard={flatBoard} />
             <Carousel
                 opts={{
                     align: "start",
