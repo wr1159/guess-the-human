@@ -20,7 +20,7 @@ Guess The Human is a blockchain-based AI-driven game where players attempt to id
 
 ### Game Setup
 
-A user creates a game board (grid with walls and yellow points).
+A user creates a game board (grid with walls with yellow and red balls).
 
 The player selects a map to play on.
 
@@ -31,6 +31,8 @@ The website renders the map.
 The human-controlled player submits 20 moves (left, right, up, down) as an on-chain transaction.
 
 Players earn points by collecting yellow balls on the grid.
+
+Players lose points by collecting yellow balls on the grid.
 
 The goal is to maximize points by planning efficient movements.
 
