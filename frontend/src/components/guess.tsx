@@ -43,7 +43,11 @@ const GuessingPage = ({
     const [aiPos, setAiPos] = useState({ row: 0, col: 0 });
     const [aiMoves, setAiMoves] = useState<string[]>([]);
     const [playerMoves, setPlayerMoves] = useState<string[]>([]);
+    const [playerScore, setPlayerScore] = useState<number>(0);
+    const [aiScore, setAiScore] = useState<number>(0);
     const [currentStep, setCurrentStep] = useState<number>(0);
+    // count number of 2s
+    const maximumScore = flatBoard.filter((cell) => cell === 2).length;
 
     const [playerEmoji] = useState<string>(
         EMOJI_LIST[Math.floor(Math.random() * EMOJI_LIST.length)]
@@ -55,6 +59,7 @@ const GuessingPage = ({
         }
         return emoji;
     });
+
     useEffect(() => {
         if (gameData && flatBoard) {
             const [rows, cols, ,] = gameData;
@@ -120,6 +125,19 @@ const GuessingPage = ({
             setPlayerPos((prev) => movePlayer(prev, move));
             setAiPos((prev) => movePlayer(prev, aiMove));
             setCurrentStep((prev) => prev + 1);
+            // Calculate the player score
+            if (board[playerPos.row][playerPos.col] === 2) {
+                setPlayerScore((prev) => Math.max(0, prev + 1));
+            } else if (board[playerPos.row][playerPos.col] === 3) {
+                setPlayerScore((prev) => Math.max(0, prev - 1));
+            }
+
+            // calcualte the AI score
+            if (board[aiPos.row][aiPos.col] === 2) {
+                setAiScore((prev) => Math.max(0, prev + 1));
+            } else if (board[aiPos.row][aiPos.col] === 3) {
+                setAiScore((prev) => Math.max(0, prev - 1));
+            }
         }
     };
 
@@ -131,6 +149,20 @@ const GuessingPage = ({
             setPlayerPos((prev) => unmovePlayer(prev, move));
             setAiPos((prev) => unmovePlayer(prev, aiMove));
             setCurrentStep((prev) => prev - 1);
+        }
+
+        // Calculate the player score
+        if (board[playerPos.row][playerPos.col] === 2) {
+            setPlayerScore((prev) => Math.max(0, prev - 1));
+        } else if (board[playerPos.row][playerPos.col] === 3) {
+            setPlayerScore((prev) => Math.max(0, prev + 1));
+        }
+
+        // calcualte the AI score
+        if (board[aiPos.row][aiPos.col] === 2) {
+            setAiScore((prev) => Math.max(0, prev - 1));
+        } else if (board[aiPos.row][aiPos.col] === 3) {
+            setAiScore((prev) => Math.max(0, prev + 1));
         }
     };
 
@@ -172,6 +204,26 @@ const GuessingPage = ({
             <div className="border rounded-lg p-2 flex flex-col items-center">
                 <p className="text-ring uppercase font-mono">Moves Left:</p>
                 <p className="text-2xl">{currentStep}/20</p>
+            </div>
+            <div className="grid grid-cols-2 mt-2">
+                <div className="border rounded-lg p-2 flex flex-col items-center">
+                    <p className="text-ring uppercase font-mono">
+                        {playerEmoji} Score
+                    </p>
+                    <p className="text-2xl">
+                        {playerScore > maximumScore
+                            ? maximumScore
+                            : playerScore}
+                    </p>
+                </div>
+                <div className="border rounded-lg p-2 flex flex-col items-center">
+                    <p className="text-ring uppercase font-mono">
+                        {otherEmoji} Score
+                    </p>
+                    <p className="text-2xl">
+                        {aiScore > maximumScore ? maximumScore : aiScore}
+                    </p>
+                </div>
             </div>
             <div className="grid gap-8 pt-2">
                 <div>
