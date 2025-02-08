@@ -35,6 +35,8 @@ const GameBoard = ({
     const [score, setScore] = useState<number>(0);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+    const { writeContract } = useWriteContract();
+
     useEffect(() => {
         if (gameData && flatBoard) {
             const [rows, cols, ,] = gameData;
@@ -104,7 +106,20 @@ const GameBoard = ({
     const moveData = moves.map(
         (move) => MOVE_MAP[move as keyof typeof MOVE_MAP]
     );
-    const { writeContract } = useWriteContract();
+
+    const undoMove = () => {
+        if (moves.length === 0) return;
+        const lastMove = moves[moves.length - 1];
+        setMoves((prevMoves) => prevMoves.slice(0, -1));
+
+        let { row, col } = playerPos;
+        if (lastMove === "L") col++;
+        if (lastMove === "R") col--;
+        if (lastMove === "U") row++;
+        if (lastMove === "D") row--;
+
+        setPlayerPos({ row, col });
+    };
 
     const submitMoves = async () => {
         if (moves.length === 0) return;
@@ -175,10 +190,19 @@ const GameBoard = ({
                     </p>
                 </div>
             </div>
+            {/* Undo Move */}
+            <Button
+                onClick={undoMove}
+                disabled={moves.length === 0 || isSubmitting}
+                className="mt-2 w-full"
+                variant="secondary"
+            >
+                Undo Move
+            </Button>
             <Button
                 onClick={submitMoves}
-                disabled={isSubmitting || moves.length === 0}
-                className="mt-4 w-full"
+                disabled={isSubmitting || moves.length !== 20}
+                className="mt-2 w-full"
             >
                 {isSubmitting ? "Submitting..." : "Submit Moves"}
             </Button>
