@@ -31,8 +31,8 @@ const Navbar = () => {
                     </div>
 
                     <div className="hidden md:flex gap-4 items-center">
-                        <Link href={"/game"}>
-                            <Button>Go To Game</Button>
+                        <Link href={"/play"}>
+                            <Button>Play Now</Button>
                         </Link>
                         {/* @ts-expect-error msg */}
                         <appkit-button />
@@ -52,10 +52,16 @@ const Navbar = () => {
                             <Menu />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-48">
-                        <DropdownMenuItem>
-                            <Link href={"/game"}>
-                                <Button>Go To Game</Button>
+                    <DropdownMenuContent align="end" className="w-10 min-w-24">
+                        <DropdownMenuItem className="w-full">
+                            <Link href={"/play"} className="w-full">
+                                <Button>Play</Button>
+                            </Link>
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem className="w-full">
+                            <Link href={"/guess"} className="w-full">
+                                <Button>Guess</Button>
                             </Link>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
