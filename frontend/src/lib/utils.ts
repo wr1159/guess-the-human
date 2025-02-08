@@ -14,7 +14,8 @@ export enum MOVE {
 
 export function generateAINextMove(
     seed: number,
-    position: { row: number; col: number }
+    position: { row: number; col: number },
+    board: number[][]
 ): MOVE {
     const { row, col } = position;
     // iterate through all possible moves and everytime it hits a border it chosses a different move
@@ -23,16 +24,16 @@ export function generateAINextMove(
         seed++;
         // if move is valid return it
         // else continue to next move
-        if (nextMove === MOVE.L && col > 0) {
+        if (nextMove === MOVE.L && col > 0 && board[row][col - 1] !== 1) {
             return nextMove;
         }
-        if (nextMove === MOVE.R && col < 4) {
+        if (nextMove === MOVE.R && col < 4 && board[row][col + 1] !== 1) {
             return nextMove;
         }
-        if (nextMove === MOVE.U && row > 0) {
+        if (nextMove === MOVE.U && row > 0 && board[row - 1][col] !== 1) {
             return nextMove;
         }
-        if (nextMove === MOVE.D && row < 4) {
+        if (nextMove === MOVE.D && row < 4 && board[row + 1][col] !== 1) {
             return nextMove;
         }
     }

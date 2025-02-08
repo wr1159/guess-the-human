@@ -88,7 +88,7 @@ const GuessingPage = ({
             setPlayerMoves(playerMovesData.map((m: number) => MOVE_MAP[m]));
             const currentPosition = { row: 0, col: 0 };
             for (let i = 0; i < 20; i++) {
-                const aiMove = generateAINextMove(i, currentPosition);
+                const aiMove = generateAINextMove(i, currentPosition, board);
                 switch (aiMove) {
                     case MOVE.L:
                         currentPosition.col--;
