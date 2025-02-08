@@ -62,6 +62,7 @@ If the guesser is correct, the humna loses their score.
 -   [x] Add Game Moving Logic with Contract Write
 -   [ ] Display AI Moves
 -   [ ] Add Guess Logic
+-   [ ] Add Landing Page
 
 ## Diagram
 
