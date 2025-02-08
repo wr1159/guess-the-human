@@ -1,9 +1,8 @@
 "use client";
-import { useChainId, useReadContract, useWriteContract } from "wagmi";
+import { useChainId, useWriteContract } from "wagmi";
 import { useState, useEffect, useCallback } from "react";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { Button } from "./ui/button";
-import { Spinner } from "./ui/spinner";
 
 const DIRECTIONS = {
     ArrowUp: "U",
@@ -18,7 +17,15 @@ const DIRECTIONS = {
 
 const MOVE_MAP = { L: 0, R: 1, U: 2, D: 3 };
 
-const GameBoard = ({ gameId }: { gameId: number }) => {
+const GameBoard = ({
+    gameId,
+    gameData,
+    flatBoard,
+}: {
+    gameId: number;
+    gameData: readonly [bigint, bigint, `0x${string}`, boolean] | undefined;
+    flatBoard: number[];
+}) => {
     const chainId = useChainId();
     const [rows, setRows] = useState<number>(0);
     const [cols, setCols] = useState<number>(0);
@@ -27,29 +34,10 @@ const GameBoard = ({ gameId }: { gameId: number }) => {
     const [moves, setMoves] = useState<string[]>([]);
     const [score, setScore] = useState<number>(0);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    const { data } = useReadContract({
-        address:
-            guessTheHumanAddress[chainId as keyof typeof guessTheHumanAddress],
-        abi: guessTheHumanAbi,
-        functionName: "gameBoards",
-        args: [BigInt(gameId)],
-    });
-    console.log(data);
-
-    const { data: flatBoard } = useReadContract({
-        address:
-            guessTheHumanAddress[chainId as keyof typeof guessTheHumanAddress],
-        abi: guessTheHumanAbi,
-        functionName: "getFlatBoard",
-        args: [BigInt(gameId)],
-    });
-    console.log(flatBoard);
 
     useEffect(() => {
-        if (data && flatBoard) {
-            const [rows, cols, ,] = data;
+        if (gameData && flatBoard) {
+            const [rows, cols, ,] = gameData;
             setRows(Number(rows));
             setCols(Number(cols));
 
@@ -65,9 +53,8 @@ const GameBoard = ({ gameId }: { gameId: number }) => {
                 );
             }
             setBoard(newBoard);
-            setIsLoading(false);
         }
-    }, [data, flatBoard]);
+    }, [gameData, flatBoard]);
 
     const handleKeyDown = useCallback(
         (event: KeyboardEvent) => {
@@ -138,13 +125,6 @@ const GameBoard = ({ gameId }: { gameId: number }) => {
         }
         setIsSubmitting(false);
     };
-
-    if (isLoading)
-        return (
-            <div className="max-w-5xl w-screen h-screen flex items-center justify-center">
-                <Spinner size="xl" />
-            </div>
-        );
 
     return (
         <div className="p-6 mx-auto">
