@@ -3,6 +3,7 @@ import { useChainId, useReadContract, useWriteContract } from "wagmi";
 import { useState, useEffect, useCallback } from "react";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { Button } from "./ui/button";
+import { Spinner } from "./ui/spinner";
 
 const DIRECTIONS = {
     ArrowUp: "U",
@@ -138,7 +139,12 @@ const GameBoard = ({ gameId }: { gameId: number }) => {
         setIsSubmitting(false);
     };
 
-    if (isLoading) return <p>Loading game board...</p>;
+    if (isLoading)
+        return (
+            <div className="max-w-5xl w-screen h-screen flex items-center justify-center">
+                <Spinner size="xl" />
+            </div>
+        );
 
     return (
         <div className="p-6 mx-auto">
