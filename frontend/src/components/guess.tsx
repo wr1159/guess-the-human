@@ -26,7 +26,6 @@ const GuessingPage = ({
     const [aiMoves, setAiMoves] = useState<string[]>([]);
     const [playerMoves, setPlayerMoves] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState<number>(0);
-    const [guess, setGuess] = useState<boolean | null>(null);
 
     useEffect(() => {
         if (gameData && flatBoard) {
@@ -96,6 +95,17 @@ const GuessingPage = ({
         }
     };
 
+    const undoMove = () => {
+        if (currentStep > 0) {
+            const move = playerMoves[currentStep - 1];
+            const aiMove = aiMoves[currentStep - 1];
+
+            setPlayerPos((prev) => unmovePlayer(prev, move));
+            setAiPos((prev) => unmovePlayer(prev, aiMove));
+            setCurrentStep((prev) => prev - 1);
+        }
+    };
+
     const movePlayer = (pos: { row: number; col: number }, move: string) => {
         let newRow = pos.row,
             newCol = pos.col;
@@ -105,10 +115,18 @@ const GuessingPage = ({
         if (move === "D") newRow++;
         return { row: newRow, col: newCol };
     };
+    const unmovePlayer = (pos: { row: number; col: number }, move: string) => {
+        let newRow = pos.row,
+            newCol = pos.col;
+        if (move === "L") newCol++;
+        if (move === "R") newCol--;
+        if (move === "U") newRow++;
+        if (move === "D") newRow--;
+        return { row: newRow, col: newCol };
+    };
 
     const { writeContract } = useWriteContract();
-    const submitGuess = async () => {
-        if (guess === null) return;
+    const submitGuess = async (guess: boolean) => {
         await writeContract({
             address:
                 guessTheHumanAddress[
@@ -174,11 +192,11 @@ const GuessingPage = ({
                 <Button onClick={nextMove} disabled={currentStep >= 20}>
                     Next Move
                 </Button>
-                <Button onClick={submitGuess} disabled={guess === null}>
-                    Submit Guess
+                <Button onClick={undoMove} disabled={currentStep === 0}>
+                    Undo Move
                 </Button>
-                <Button onClick={() => setGuess(true)}>Guess 🚀</Button>
-                <Button onClick={() => setGuess(false)}>Guess 🤖</Button>
+                <Button onClick={() => submitGuess(true)}>Guess 🚀</Button>
+                <Button onClick={() => submitGuess(false)}>Guess 🤖</Button>
             </div>
         </div>
     );
