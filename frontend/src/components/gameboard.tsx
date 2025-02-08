@@ -34,6 +34,13 @@ const GameBoard = ({
     const [moves, setMoves] = useState<string[]>([]);
     const [score, setScore] = useState<number>(0);
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+    const [prevBoardStates, setPrevBoardStates] = useState<
+        {
+            board: number[][];
+            pos: { row: number; col: number };
+            score: number;
+        }[]
+    >([]);
 
     const { writeContract } = useWriteContract();
 
@@ -79,8 +86,17 @@ const GameBoard = ({
                 newCol >= cols ||
                 board[newRow][newCol] === 1
             ) {
-                return; // Prevent movement out of bounds or into walls
+                return;
             }
+
+            setPrevBoardStates((prev) => [
+                ...prev,
+                {
+                    board: board.map((row) => [...row]),
+                    pos: { row, col },
+                    score,
+                },
+            ]);
 
             if (board[newRow][newCol] === 2) {
                 setScore((prevScore) => prevScore + 1);
@@ -108,17 +124,13 @@ const GameBoard = ({
     );
 
     const undoMove = () => {
-        if (moves.length === 0) return;
-        const lastMove = moves[moves.length - 1];
+        if (moves.length === 0 || prevBoardStates.length === 0) return;
         setMoves((prevMoves) => prevMoves.slice(0, -1));
-
-        let { row, col } = playerPos;
-        if (lastMove === "L") col++;
-        if (lastMove === "R") col--;
-        if (lastMove === "U") row++;
-        if (lastMove === "D") row--;
-
-        setPlayerPos({ row, col });
+        const lastState = prevBoardStates[prevBoardStates.length - 1];
+        setBoard(lastState.board.map((row) => [...row]));
+        setPlayerPos({ ...lastState.pos });
+        setScore(lastState.score);
+        setPrevBoardStates((prev) => prev.slice(0, -1));
     };
 
     const submitMoves = async () => {
