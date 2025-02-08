@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingBasket, Menu } from "lucide-react";
+import { Menu, VenetianMask } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +23,7 @@ const Navbar = () => {
                             href={"/"}
                             className="flex items-center hover:bg-accent hover:text-accent-foreground p-2 rounded"
                         >
-                            <ShoppingBasket className="stroke-primary" />
+                            <VenetianMask className="stroke-primary" />
                             <span className="ml-2 text-primary hidden sm:block">
                                 GuessTheHuman
                             </span>
