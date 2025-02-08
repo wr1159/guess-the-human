@@ -7,6 +7,24 @@ import { generateAINextMove, MOVE } from "@/lib/utils";
 
 const MOVE_MAP = ["L", "R", "U", "D"];
 
+const EMOJI_LIST = [
+    "🦄",
+    "😹",
+    "🌽",
+    "🍑",
+    "🐸",
+    "💩",
+    "🔥",
+    "💎",
+    "🌮",
+    "🎲",
+    "🍣",
+    "🍆",
+    "👽",
+    "🥨",
+    "👑",
+];
+
 const GuessingPage = ({
     gameId,
     player,
@@ -27,6 +45,16 @@ const GuessingPage = ({
     const [playerMoves, setPlayerMoves] = useState<string[]>([]);
     const [currentStep, setCurrentStep] = useState<number>(0);
 
+    const [playerEmoji] = useState<string>(
+        EMOJI_LIST[Math.floor(Math.random() * EMOJI_LIST.length)]
+    );
+    const [otherEmoji] = useState<string>(() => {
+        let emoji = EMOJI_LIST[Math.floor(Math.random() * EMOJI_LIST.length)];
+        while (emoji === playerEmoji) {
+            emoji = EMOJI_LIST[Math.floor(Math.random() * EMOJI_LIST.length)];
+        }
+        return emoji;
+    });
     useEffect(() => {
         if (gameData && flatBoard) {
             const [rows, cols, ,] = gameData;
@@ -158,13 +186,13 @@ const GuessingPage = ({
                                     playerPos.row === rowIndex &&
                                     playerPos.col === colIndex
                                 ) {
-                                    entity += "🚀";
+                                    entity += playerEmoji;
                                 }
                                 if (
                                     aiPos.row === rowIndex &&
                                     aiPos.col === colIndex
                                 ) {
-                                    entity += "🤖";
+                                    entity += otherEmoji;
                                 }
                                 return (
                                     <div
@@ -195,8 +223,17 @@ const GuessingPage = ({
                 <Button onClick={undoMove} disabled={currentStep === 0}>
                     Undo Move
                 </Button>
-                <Button onClick={() => submitGuess(true)}>Guess 🚀</Button>
-                <Button onClick={() => submitGuess(false)}>Guess 🤖</Button>
+            </div>
+            {/* 50% chance of flipping the order */}
+            <div
+                className={`grid gap-4 mt-4 grid-cols-2 ${Math.random() > 0.5 ? "reversed" : ""}`}
+            >
+                <Button onClick={() => submitGuess(true)}>
+                    Guess {playerEmoji}
+                </Button>
+                <Button onClick={() => submitGuess(false)}>
+                    Guess {otherEmoji}
+                </Button>
             </div>
         </div>
     );
