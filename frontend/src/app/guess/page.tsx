@@ -63,7 +63,7 @@ export default function Home() {
         return (
             <div className="max-w-5xl w-screen h-screen flex items-center justify-center mx-auto flex-col">
                 <h1 className="text-3xl font-bold">
-                    There are no current players
+                    There are no current players.
                 </h1>
                 <p className="text-lg">
                     Please check back later for more games.
