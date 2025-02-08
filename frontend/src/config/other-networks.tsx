@@ -1,7 +1,7 @@
 import { defineChain } from "@reown/appkit/networks";
 
 export const airDaoTestnet = defineChain({
-    id: 123456789,
+    id: 22040,
     caipNetworkId: "eip155:22040",
     chainNamespace: "eip155",
     name: "AirDAO Testnet",

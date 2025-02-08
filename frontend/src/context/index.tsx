@@ -4,7 +4,7 @@
 import { wagmiAdapter, projectId } from "@/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createAppKit } from "@reown/appkit/react";
-import { mainnet, base, opBNBTestnet, sepolia } from "@reown/appkit/networks";
+import { mainnet, anvil, bscTestnet } from "@reown/appkit/networks";
 import React, { type ReactNode } from "react";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
 import { airDaoTestnet } from "@/config/other-networks";
@@ -28,7 +28,7 @@ const metadata = {
 const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
-    networks: [mainnet, opBNBTestnet, base, sepolia, airDaoTestnet],
+    networks: [anvil, bscTestnet, airDaoTestnet],
     defaultNetwork: mainnet,
     metadata: metadata,
     features: {
