@@ -76,8 +76,8 @@ contract GuessTheHuman {
         require(playerMoves[gameId][player].played, "Player has not submitted moves");
         require(!playerMoves[gameId][player].guessed, "Player already guessed");
         playerMoves[gameId][player].guessed = true;
-        if (human == true) {
-            playerMoves[gameId][player].score -= 10;
+        if (human == true && playerMoves[gameId][player].score > 0) {
+            playerMoves[gameId][player].score -= 1;
         }
     }
 }

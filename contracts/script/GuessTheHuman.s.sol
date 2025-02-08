@@ -7,13 +7,16 @@ import {GuessTheHuman} from "../src/GuessTheHuman.sol";
 contract GuessTheHumanScript is Script {
     GuessTheHuman public guessTheHuman;
 
-    function setUp() public {}
+    address internal deployer;
+
+    function setUp() public virtual {
+        deployer = vm.rememberKey(vm.envUint("PRIVATE_KEY"));
+        vm.label(deployer, "Deployer");
+    }
 
     function run() public {
-        vm.startBroadcast();
-
+        vm.startBroadcast(deployer);
         guessTheHuman = new GuessTheHuman();
-
         vm.stopBroadcast();
     }
 }
