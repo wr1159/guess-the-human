@@ -39,7 +39,7 @@ contract GuessTheHuman {
     function submitPlay(uint256 gameId, uint8[] calldata moves) external {
         require(gameId < gameBoardCount, "Invalid game ID");
         require(gameBoards[gameId].active, "Game is not active");
-        require(moves.length < 20, "At most 20 moves required");
+        require(moves.length == 20, "20 moves required");
         require(!playerMoves[gameId][msg.sender].played, "Player already submitted moves");
 
         uint256 score = 0;
@@ -77,7 +77,7 @@ contract GuessTheHuman {
         require(!playerMoves[gameId][player].guessed, "Player already guessed");
         playerMoves[gameId][player].guessed = true;
         if (human == true && playerMoves[gameId][player].score > 0) {
-            playerMoves[gameId][player].score -= 1;
+            playerMoves[gameId][player].score = 0;
         }
     }
 
@@ -97,4 +97,10 @@ contract GuessTheHuman {
 
         return flatBoard;
     }
+    // Function to return a player's moves for a game
+    function getPlayerMoves(uint256 gameId, address player) external view returns (uint8[] memory) {
+        require(gameId < gameBoardCount, "Invalid game ID");
+        require(playerMoves[gameId][player].played, "Player has not submitted moves");
+        return playerMoves[gameId][player].moves;
+}
 }

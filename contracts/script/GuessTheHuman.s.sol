@@ -34,6 +34,15 @@ contract GuessTheHumanScript is Script {
         map[2][2] = 2; // Yellow ball (Positive point)
         map[3][3] = 3; // Red ball (Negative point)
         guessTheHuman.createGameBoard(5, 5, map);
+        uint8[] memory moves = new uint8[](20);
+        for (uint8 i = 0; i < 20; i++) {
+            if(i % 2 == 0) {
+                moves[i] = 1;
+            } else {
+                moves[i] = 0;
+            }
+        }
+        guessTheHuman.submitPlay(0, moves);
         vm.stopBroadcast();
 
     }

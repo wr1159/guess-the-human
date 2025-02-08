@@ -76,6 +76,16 @@ export const guessTheHumanAbi = [
     inputs: [
       { name: 'gameId', internalType: 'uint256', type: 'uint256' },
       { name: 'player', internalType: 'address', type: 'address' },
+    ],
+    name: 'getPlayerMoves',
+    outputs: [{ name: '', internalType: 'uint8[]', type: 'uint8[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'gameId', internalType: 'uint256', type: 'uint256' },
+      { name: 'player', internalType: 'address', type: 'address' },
       { name: 'human', internalType: 'bool', type: 'bool' },
     ],
     name: 'guessPlayer',
