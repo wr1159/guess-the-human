@@ -1,5 +1,6 @@
 "use client";
 import GuessingPage from "@/components/guess";
+import { Spinner } from "@/components/ui/spinner";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -9,9 +10,6 @@ export default function Home() {
     // use paramquery
     const searchParams = useSearchParams();
     const id = parseInt(searchParams.get("id") || "1");
-    const player =
-        searchParams.get("player") ||
-        "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 
     const chainId = useChainId();
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -37,6 +35,14 @@ export default function Home() {
         functionName: "getFlatBoard",
         args: [BigInt(id)],
     });
+    // Fetch unguessed Player
+    const { data: unGuessedPlayerArray } = useReadContract({
+        address:
+            guessTheHumanAddress[chainId as keyof typeof guessTheHumanAddress],
+        abi: guessTheHumanAbi,
+        functionName: "getUnGuessedPlayers",
+        args: [BigInt(id)],
+    });
 
     // Once both fetches complete, update state
     useEffect(() => {
@@ -47,12 +53,29 @@ export default function Home() {
         }
     }, [gameBoard, fetchedFlatBoard]);
 
-    if (isLoading) return <p>Loading game data...</p>;
+    if (isLoading || !unGuessedPlayerArray)
+        return (
+            <div className="max-w-5xl w-screen h-screen flex items-center justify-center mx-auto">
+                <Spinner size="xl" />
+            </div>
+        );
+    if (unGuessedPlayerArray?.length === 0) {
+        return (
+            <div className="max-w-5xl w-screen h-screen flex items-center justify-center mx-auto flex-col">
+                <h1 className="text-2xl font-bold">
+                    There are no current players
+                </h1>
+                <p className="text-lg">
+                    Please check back later for more games.
+                </p>
+            </div>
+        );
+    }
     return (
         <div className="container max-w-5xl mx-auto p-6 items-center justify-center grid space-x-6">
             <GuessingPage
                 gameId={id}
-                player={player}
+                player={unGuessedPlayerArray?.[0]}
                 gameData={gameData}
                 flatBoard={flatBoard}
             />

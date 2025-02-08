@@ -214,7 +214,10 @@ const GuessingPage = ({
 
     return (
         <div className="p-6">
-            <h2 className="text-2xl font-semibold mb-4">Guess The Human</h2>
+            <h2 className="text-2xl font-semibold mb-4 font-mono text-center ">
+                Guess Player <br />
+                {player.slice(0, 6)}...{player.slice(-4)}
+            </h2>
             <div className="border rounded-lg p-2 flex flex-col items-center">
                 <p className="text-ring uppercase font-mono">Moves Left:</p>
                 <p className="text-2xl">{currentStep}/20</p>

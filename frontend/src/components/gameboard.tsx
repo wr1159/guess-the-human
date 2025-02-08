@@ -3,6 +3,7 @@ import { useChainId, useWriteContract } from "wagmi";
 import { useState, useEffect, useCallback } from "react";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { Button } from "./ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const DIRECTIONS = {
     ArrowUp: "U",
@@ -27,6 +28,7 @@ const GameBoard = ({
     flatBoard: number[];
 }) => {
     const chainId = useChainId();
+    const { toast } = useToast();
     const [rows, setRows] = useState<number>(0);
     const [cols, setCols] = useState<number>(0);
     const [board, setBoard] = useState<number[][]>([]);
@@ -148,6 +150,11 @@ const GameBoard = ({
                 abi: guessTheHumanAbi,
                 functionName: "submitPlay",
                 args: [BigInt(gameId), moveData],
+            });
+            setInterval(() => {
+                toast({
+                    title: "Moves submitted successfully.",
+                });
             });
         } catch (error) {
             console.error("Transaction failed:", error);

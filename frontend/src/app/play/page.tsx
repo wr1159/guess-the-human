@@ -68,7 +68,7 @@ export default function Play() {
             </div>
         );
 
-    if (playerMovesData?.length !== 0)
+    if (playerMovesData && playerMovesData?.length !== 0)
         return (
             <div className="max-w-5xl w-screen h-screen flex items-center justify-center mx-auto flex-col">
                 <h1 className="text-3xl font-semibold text-center">

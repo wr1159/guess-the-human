@@ -20,6 +20,7 @@ contract GuessTheHuman {
 
     mapping(uint256 => GameBoard) public gameBoards;
     mapping(uint256 => mapping(address => PlayerMove)) public playerMoves;
+    mapping(uint256 => address[]) public gamePlayers; // Store players for each game
     uint256 public gameBoardCount;
 
     event GameBoardCreated(uint256 gameId, uint256 rows, uint256 columns, address creator);
@@ -66,6 +67,7 @@ contract GuessTheHuman {
             }
         }
 
+        gamePlayers[gameId].push(msg.sender); // Track players
         playerMoves[gameId][msg.sender] = PlayerMove(msg.sender, moves, score, true, false);
         emit MoveSubmitted(gameId, msg.sender, moves, score);
     }
@@ -102,5 +104,28 @@ contract GuessTheHuman {
         require(gameId < gameBoardCount, "Invalid game ID");
         require(playerMoves[gameId][player].played, "Player has not submitted moves");
         return playerMoves[gameId][player].moves;
-}
+    }
+
+    // Function to return unguessed players for a game
+    function getUnGuessedPlayers(uint256 gameId) external view returns (address[] memory) {
+        require(gameId < gameBoardCount, "Invalid game ID");
+
+        uint256 count = 0;
+        for (uint256 i = 0; i < gamePlayers[gameId].length; i++) {
+            if (!playerMoves[gameId][gamePlayers[gameId][i]].guessed) {
+                count++;
+            }
+        }
+
+        address[] memory unguessedPlayers = new address[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < gamePlayers[gameId].length; i++) {
+            if (!playerMoves[gameId][gamePlayers[gameId][i]].guessed) {
+                unguessedPlayers[index] = gamePlayers[gameId][i];
+                index++;
+            }
+        }
+
+        return unguessedPlayers;
+    }
 }

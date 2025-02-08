@@ -66,6 +66,16 @@ export const guessTheHumanAbi = [
   },
   {
     type: 'function',
+    inputs: [
+      { name: '', internalType: 'uint256', type: 'uint256' },
+      { name: '', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'gamePlayers',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [{ name: 'gameId', internalType: 'uint256', type: 'uint256' }],
     name: 'getFlatBoard',
     outputs: [{ name: '', internalType: 'uint8[]', type: 'uint8[]' }],
@@ -79,6 +89,13 @@ export const guessTheHumanAbi = [
     ],
     name: 'getPlayerMoves',
     outputs: [{ name: '', internalType: 'uint8[]', type: 'uint8[]' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'gameId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getUnGuessedPlayers',
+    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
     stateMutability: 'view',
   },
   {
