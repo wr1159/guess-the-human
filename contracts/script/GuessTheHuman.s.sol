@@ -42,6 +42,10 @@ contract GuessTheHumanScript is Script {
                 moves[i] = 0;
             }
         }
+        map[2][2] = 1;
+        map[3][3] = 1;
+        map[4][4] = 1;
+        guessTheHuman.createGameBoard(5, 5, map);
         guessTheHuman.submitPlay(0, moves);
         vm.stopBroadcast();
 
