@@ -113,6 +113,9 @@ const GameBoard = ({
         },
         [playerPos, moves, cols, rows, board]
     );
+    const simulateKeyPress = (key: string) => {
+        handleKeyDown({ key } as KeyboardEvent);
+    };
 
     useEffect(() => {
         window.addEventListener("keydown", handleKeyDown);
@@ -201,6 +204,33 @@ const GameBoard = ({
                         {moves.join(" ") || "No moves recorded yet."}
                     </p>
                 </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 mt-2 md:hidden">
+                <Button
+                    onClick={() => simulateKeyPress("ArrowUp")}
+                    className="col-span-2"
+                >
+                    ⬆️
+                </Button>
+                <Button
+                    onClick={() => simulateKeyPress("ArrowLeft")}
+                    className="col-span-1"
+                >
+                    ⬅️
+                </Button>
+                <Button
+                    onClick={() => simulateKeyPress("ArrowRight")}
+                    className="col-span-1"
+                >
+                    ➡️
+                </Button>
+                <Button
+                    onClick={() => simulateKeyPress("ArrowDown")}
+                    className="col-span-2"
+                >
+                    ⬇️
+                </Button>
             </div>
             {/* Undo Move */}
             <Button
