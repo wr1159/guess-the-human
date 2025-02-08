@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useChainId, useReadContract } from "wagmi";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Spinner } from "./ui/spinner";
 
 const Leaderboard = () => {
     const chainId = useChainId();
@@ -26,11 +27,18 @@ const Leaderboard = () => {
         }
     }, [leaderboardData]);
 
-    if (isLoading) return <p>Loading leaderboard...</p>;
+    if (isLoading)
+        return (
+            <div className="max-w-5xl w-screen h-screen flex items-center justify-center mx-auto">
+                <Spinner size="xl" />
+            </div>
+        );
 
     return (
         <div className="p-6">
-            <h2 className="text-2xl font-semibold mb-4">Global Leaderboard</h2>
+            <h2 className="text-center text-2xl font-semibold mb-4">
+                Global Leaderboard
+            </h2>
             <div className="border rounded-lg p-4">
                 {players.length === 0 ? (
                     <p>No scores yet.</p>

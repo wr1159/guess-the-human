@@ -49,7 +49,7 @@ const GuessingPage = ({
     const [aiScore, setAiScore] = useState<number>(0);
     const [currentStep, setCurrentStep] = useState<number>(0);
     // count number of 2s
-    const maximumScore = flatBoard.filter((cell) => cell === 2).length;
+    const maximumScore = flatBoard.filter((cell) => cell === 2).length * 10;
 
     const [playerEmoji] = useState<string>(
         EMOJI_LIST[Math.floor(Math.random() * EMOJI_LIST.length)]
@@ -129,16 +129,16 @@ const GuessingPage = ({
             setCurrentStep((prev) => prev + 1);
             // Calculate the player score
             if (board[playerPos.row][playerPos.col] === 2) {
-                setPlayerScore((prev) => Math.max(0, prev + 1));
+                setPlayerScore((prev) => Math.max(0, prev + 10));
             } else if (board[playerPos.row][playerPos.col] === 3) {
-                setPlayerScore((prev) => Math.max(0, prev - 1));
+                setPlayerScore((prev) => Math.max(0, prev - 5));
             }
 
             // calcualte the AI score
             if (board[aiPos.row][aiPos.col] === 2) {
-                setAiScore((prev) => Math.max(0, prev + 1));
+                setAiScore((prev) => Math.max(0, prev + 10));
             } else if (board[aiPos.row][aiPos.col] === 3) {
-                setAiScore((prev) => Math.max(0, prev - 1));
+                setAiScore((prev) => Math.max(0, prev - 5));
             }
         }
     };
@@ -155,16 +155,16 @@ const GuessingPage = ({
 
         // Calculate the player score
         if (board[playerPos.row][playerPos.col] === 2) {
-            setPlayerScore((prev) => Math.max(0, prev - 1));
+            setPlayerScore((prev) => Math.max(0, prev - 10));
         } else if (board[playerPos.row][playerPos.col] === 3) {
-            setPlayerScore((prev) => Math.max(0, prev + 1));
+            setPlayerScore((prev) => Math.max(0, prev + 5));
         }
 
         // calcualte the AI score
         if (board[aiPos.row][aiPos.col] === 2) {
-            setAiScore((prev) => Math.max(0, prev - 1));
+            setAiScore((prev) => Math.max(0, prev - 10));
         } else if (board[aiPos.row][aiPos.col] === 3) {
-            setAiScore((prev) => Math.max(0, prev + 1));
+            setAiScore((prev) => Math.max(0, prev + 5));
         }
     };
 
