@@ -53,13 +53,13 @@ If the guesser is correct, the humna loses their score.
 -   [x] Create Game Board Structure (Rows, Columns, Content / Map, Starting Position)
 -   [x] Add function to Create Game Board
 -   [x] Add function to Submit Play
--   [ ] Add function to Read Game Board
+-   [x] Add function to Read Game Board
 
 ### Frontend
 
--   [ ] Add 2D Map Parser Logic
--   [ ] Display Map of game
--   [ ] Add Game Moving Logic with Contract Write
+-   [x] Add 2D Map Parser Logic
+-   [x] Display Map of game
+-   [x] Add Game Moving Logic with Contract Write
 -   [ ] Display AI Moves
 -   [ ] Add Guess Logic
 
