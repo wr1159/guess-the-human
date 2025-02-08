@@ -4,6 +4,7 @@ import { useChainId, useReadContract, useWriteContract } from "wagmi";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { Button } from "@/components/ui/button";
 import { generateAINextMove, MOVE } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
 const MOVE_MAP = ["L", "R", "U", "D"];
 
@@ -36,6 +37,7 @@ const GuessingPage = ({
     gameData: readonly [bigint, bigint, `0x${string}`, boolean] | undefined;
     flatBoard: number[];
 }) => {
+    const { toast } = useToast();
     const chainId = useChainId();
     const [cols, setCols] = useState<number>(0);
     const [board, setBoard] = useState<number[][]>([]);
@@ -196,6 +198,18 @@ const GuessingPage = ({
             functionName: "guessPlayer",
             args: [BigInt(gameId), player as `0x${string}`, guess],
         });
+
+        setTimeout(() => {
+            if (guess)
+                toast({
+                    title: "Success, Picked the right player",
+                });
+            else {
+                toast({
+                    title: "Wrong guess",
+                });
+            }
+        }, 10000);
     };
 
     return (
