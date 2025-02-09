@@ -28,6 +28,9 @@ const metadata = {
 const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
+    themeVariables: {
+        "--w3m-accent": "#571D00",
+    },
     networks: [anvil, bscTestnet, airDaoTestnet],
     defaultNetwork: mainnet,
     metadata: metadata,
