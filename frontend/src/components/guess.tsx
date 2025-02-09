@@ -117,7 +117,7 @@ const GuessingPage = ({
                 setAiMoves((prev) => [...prev, aiMoveStr]);
             }
         }
-    }, [playerMovesData]);
+    }, [playerMovesData, board]);
 
     const nextMove = () => {
         if (currentStep < 20) {

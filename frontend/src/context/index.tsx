@@ -25,6 +25,7 @@ const metadata = {
 };
 
 // Create the modal
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const modal = createAppKit({
     adapters: [wagmiAdapter],
     projectId,
