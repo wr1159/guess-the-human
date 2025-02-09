@@ -31,7 +31,8 @@ export const counterAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- *
+ * - [__View Contract on Binance Smart Chain Testnet Bsc Scan__](https://testnet.bscscan.com/address/0x6d601b3a60ec0a08e61dc7084c7edaa457e77476)
+ * -
  */
 export const guessTheHumanAbi = [
   {
@@ -231,14 +232,18 @@ export const guessTheHumanAbi = [
 ] as const
 
 /**
- *
+ * - [__View Contract on Binance Smart Chain Testnet Bsc Scan__](https://testnet.bscscan.com/address/0x6d601b3a60ec0a08e61dc7084c7edaa457e77476)
+ * -
  */
 export const guessTheHumanAddress = {
+  97: '0x6d601b3a60Ec0a08e61dC7084C7EDAa457E77476',
+  22040: '0xFA789846c14e8c0e1182879c20a3d640E90c732C',
   31337: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
 } as const
 
 /**
- *
+ * - [__View Contract on Binance Smart Chain Testnet Bsc Scan__](https://testnet.bscscan.com/address/0x6d601b3a60ec0a08e61dc7084c7edaa457e77476)
+ * -
  */
 export const guessTheHumanConfig = {
   address: guessTheHumanAddress,

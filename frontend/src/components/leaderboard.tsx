@@ -36,9 +36,6 @@ const Leaderboard = () => {
 
     return (
         <div className="p-6">
-            <h2 className="text-center text-2xl font-semibold mb-4">
-                This Week&apos;s Leaderboard
-            </h2>
             <div className="border rounded-lg p-4">
                 {players.length === 0 ? (
                     <p>No scores yet.</p>
