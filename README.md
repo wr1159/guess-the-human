@@ -60,8 +60,9 @@ If the guesser is correct, the humna loses their score.
 -   [x] Add 2D Map Parser Logic
 -   [x] Display Map of game
 -   [x] Add Game Moving Logic with Contract Write
--   [ ] Display AI Moves
--   [ ] Add Guess Logic
+-   [x] Display AI Moves
+-   [x] Add Guess Logic
+-   [x] Add Random Emoji
 -   [ ] Add Landing Page
 
 ## Diagram

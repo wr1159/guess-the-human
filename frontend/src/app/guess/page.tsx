@@ -1,5 +1,6 @@
 "use client";
 import GuessingPage from "@/components/guess";
+import { HowToPlayGuesser } from "@/components/responsive-dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { guessTheHumanAbi, guessTheHumanAddress } from "@/generated";
 import { useSearchParams } from "next/navigation";
@@ -73,6 +74,7 @@ export default function Home() {
     }
     return (
         <div className="container max-w-5xl mx-auto p-6 items-center justify-center grid space-x-6">
+            <HowToPlayGuesser />
             <GuessingPage
                 gameId={id}
                 player={unGuessedPlayerArray?.[0]}
