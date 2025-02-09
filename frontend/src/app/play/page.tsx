@@ -61,6 +61,16 @@ export default function Play() {
         }
     }, [gameBoard, fetchedFlatBoard]);
 
+    // useWatchContractEvent({
+    //     address:
+    //         guessTheHumanAddress[chainId as keyof typeof guessTheHumanAddress],
+    //     abi: guessTheHumanAbi,
+    //     eventName: "MoveSubmitted",
+    //     onLogs(logs) {
+    //         console.log("New logs!", logs);
+    //     },
+    // });
+
     if (isLoading)
         return (
             <div className="max-w-5xl w-screen h-screen flex items-center justify-center mx-auto">

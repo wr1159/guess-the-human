@@ -59,14 +59,14 @@ contract GuessTheHuman {
             if (moves[i] == 3 && posY < map[0].length - 1) posY++; // Down
 
             // Collect points or penalties
-            if (map[posX][posY] == 2) {
+            if (map[posY][posX] == 2) {
                 score += 10;
                 map[posX][posY] = 0; // Remove collected yellow point
-            } else if (map[posX][posY] == 3) {
+            } else if (map[posY][posX] == 3) {
                 if (score > 0) {
                     score -= 5; // Deduct points for red point
                 }
-                map[posX][posY] = 0; // Remove collected red point
+                map[posY][posX] = 0; // Remove collected red point
             }
         }
 
@@ -87,10 +87,13 @@ contract GuessTheHuman {
         require(playerMoves[gameId][player].played, "Player has not submitted moves");
         require(!playerMoves[gameId][msg.sender].guessed, "Player already guessed");
         playerMoves[gameId][player].guessed = true;
-        if (human == true && playerMoves[gameId][player].score > 0) {
+        if (human && playerMoves[gameId][player].score > 0) {
+            // steal points if guessed correctly
             globalLeaderboard[player] -= playerMoves[gameId][player].score;
+            if (globalLeaderboard[msg.sender] == 0) {
+                leaderboardPlayers.push(msg.sender); // Only add if first time playing
+            }
             globalLeaderboard[msg.sender] += playerMoves[gameId][player].score;
-            playerMoves[gameId][player].score = 0;
         }
     }
 
