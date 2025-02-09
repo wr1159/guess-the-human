@@ -17,6 +17,12 @@ contract GuessTheHumanScript is Script {
     function run() public {
         vm.startBroadcast(deployer);
         guessTheHuman = new GuessTheHuman();
+        uint8[][] memory board = new uint8[][](3);
+        for (uint i = 0; i < 3; i++) {
+            board[i] = new uint8[](3);
+        }
+        guessTheHuman.createGameBoard(3, 3, board);
+
         uint8[][] memory map = new uint8[][](5);
         for (uint256 i = 0; i < 5; i++) {
             map[i] = new uint8[](5);
